@@ -2,17 +2,14 @@
 
 /*菜单样式*/
 .admin-menu {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
   width: 250px;
   transition: all 0.5s;
   overflow-x: hidden;
-  z-index: 2;
   display: flex;
   flex-direction: column;
-  background: rgba(0,0,0,0.4);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 5;
   &.half-width {
     width: 64px;
   }
@@ -92,10 +89,54 @@ a {
   @include halfWhite;
   max-width: 500px;
 }
+.el-menu--popup {
+  @include halfWhite;
+  position: relative;
+  overflow: hidden;
+  &:before {
+    @include halfWhitebg;
+  }
+  &:after {
+    @include blurBg;
+  }
+  .el-menu-item i {
+    color: #ffffff;
+  }
+}
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+@media screen and (max-width: 1440px) {
+  .admin-menu {
+    width: 200px;
+  }
+  .el-table .cell {
+    font-size: 12px;
+  }
+  .el-table td, .el-table th {
+    padding: 5px 0!important;
+  }
+  col[name="el-table_1_column_1"] {
+    width: 200px!important;
+  }
+  .el-switch__core {
+    width: 30px!important;
+    height: 16px!important;
+  }
+  .el-switch {
+    height: 16px!important;
+    line-height: 16px!important;
+  }
+  .el-switch__core:after {
+    width: 12px!important;
+    height: 12px!important;
+  }
+  .el-switch.is-checked .el-switch__core::after {
+    margin-left: -13px!important;
+  }
 }

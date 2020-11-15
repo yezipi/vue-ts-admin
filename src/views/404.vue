@@ -24,8 +24,15 @@ export default class extends Vue {
 }
 </script>
 
+<style lang="scss">
+.admin-content .admin-main {
+  height: 100%;
+  padding: 0;
+}
+</style>
 
-<style scoped>
+
+<style scoped lang="scss">
 div#da-wrapper,
 div#da-wrapper.fluid {
   width: 100%;

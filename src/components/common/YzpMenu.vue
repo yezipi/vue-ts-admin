@@ -1,39 +1,40 @@
 <template>
-  <div :class="{'half-width': open}" class="admin-menu">
+  <div :class="{'half-width': open}" class="admin-menu blur">
     <div class="admin-logo">
       <img src="@/assets/logo.png" />
     </div>
     <el-menu
       unique-opened
       :collapse="open"
-      :default-active="currentPath"
+      :default-active="currentName"
       background-color="transparent"
       text-color="#ffffff"
       class="menu-wrap"
     >
       <template v-for="(item, index) in routerMenu">
-        <el-menu-item v-if="!item.children" :key="item.name" @click="onMenuItemClick(item, null)">
+        <el-menu-item v-if="!item.children" :key="item.name" :index="item.name" @click="onSubMenuClick(item, null)">
           <i :class="item.meta.icon"></i>
-          <span slot="title">{{ item.meta.title }}</span>
+          <span>{{ item.meta.title }}</span>
         </el-menu-item>
         <el-submenu v-else :key="index" :index="item.name">
           <template slot="title">
             <i :class="item.meta.icon"></i>
-            <span slot="title">{{ item.meta.title }}</span>
+            <span>{{ item.meta.title }}</span>
           </template>
-        <template v-if="item.children.length">
-          <template v-for="(sub, idx) in item.children">
-            <el-menu-item
-              v-if="!sub.meta.noMenu"
-              :key="idx"
-              :index="sub.path"
-              @click="onMenuItemClick(item, sub)"
-            >
-              {{ sub.meta.title }}
-            </el-menu-item>
+          <template v-if="item.children.length">
+            <template v-for="(sub, idx) in item.children">
+              <el-menu-item
+                v-if="!sub.meta.noMenu"
+                :key="idx"
+                :index="sub.name"
+                @click="onSubMenuClick(item, sub)"
+              >
+                <i :class="sub.meta.icon"></i>
+                <span>{{ sub.meta.title }}</span>
+              </el-menu-item>
+            </template>
           </template>
-        </template>
-      </el-submenu>
+        </el-submenu>
       </template>
     </el-menu>
   </div>
@@ -45,7 +46,7 @@ import { Component, Vue, Watch, Prop } from 'vue-property-decorator'
 @Component
 export default class extends Vue {
   show: boolean = false
-  currentPath: string = '/'
+  currentName: string = 'Home'
 
   @Prop({ default: false }) open!: boolean
   @Watch('open')
@@ -61,7 +62,7 @@ export default class extends Vue {
     return menus
   }
 
-  onMenuItemClick(parent: any, child: any) {
+  onSubMenuClick(parent: any, child: any) {
     const path = parent.path || child.path
     const route: any = this.$route
     if (path !== route.path) {
@@ -69,8 +70,8 @@ export default class extends Vue {
     }
   }
 
-  setActiveMenu(path: string) {
-    this.currentPath = path
+  setActiveItem(name: string) {
+    this.currentName = name
   }
 
 }
@@ -90,6 +91,15 @@ export default class extends Vue {
     max-width: 60%;
     height: 100%;
     object-fit: cover;
+  }
+}
+
+.el-submenu .el-menu-item {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  i {
+    font-size: 13px;
   }
 }
 </style>

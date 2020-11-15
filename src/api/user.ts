@@ -6,7 +6,7 @@ class User extends request {
   }
   // 登录
   login(data: any) {
-    const url = 'admin/user/login'
+    const url = 'user/login'
     return this.post(url, data)
   }
 }

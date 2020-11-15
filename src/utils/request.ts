@@ -32,7 +32,7 @@ axios.interceptors.response.use(({ data, config: { params, data : res }}) => {
   }
   if (data.code === 401) {
     store.dispatch('resetUser')
-    router.replace({ path: '/login' })
+    router.replace({ path: '/Login' })
     return Promise.reject(data)
   }
   if (data.code !== 200 && data.code !== 401) {

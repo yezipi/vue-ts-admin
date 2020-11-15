@@ -22,10 +22,10 @@ const mixins =  {
     /**
      * @name 删除
      * @param { String } apiPath api
-     * @param { Object } id 要删除的id
+     * @param { Object } params 要删除的参数
      * @param { String } title 参数
      */
-    $doDelete(apiPath: string, id: string, title = '确定删除吗') {
+    $doDelete(apiPath: string, params: any, title = '确定删除吗') {
       return new Promise((resolve, reject) => {
         const path = apiPath.split('.')
         MessageBox.confirm(title, '提示', {
@@ -34,7 +34,7 @@ const mixins =  {
           type: 'warning',
         }).then(async () => {
           try {
-            await api[path[0]][path[1]](id)
+            await api[path[0]][path[1]](params)
             Message.success('操作成功')
             resolve()
           } catch (e) {

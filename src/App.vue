@@ -1,66 +1,66 @@
 <template>
   <div id="app">
     <!-- start左侧菜单部分 -->
-    <yzp-menu v-if="!isLoginPage" :open="showMenu" ref="menu" @onMenuItemClick="onMenuItemClick"></yzp-menu>
+    <yzp-menu v-if="!isLogin" :open="showMenu" ref="menu" @onMenuItemClick="onMenuItemClick"></yzp-menu>
     <!-- end左侧菜单部分 -->
 
-    <!-- start顶部信息栏 -->
-    <div v-if="!isLoginPage"  :class="{'more-left-space': showMenu}" class="top-menu">
-      <div class="tm-main">
-        <!--菜单按钮-->
-        <div class="tm-left">
-          <i class="tm-btns el-icon-s-fold" @click="showMenu = !showMenu"></i>
-          <el-breadcrumb class="tm-bread" separator="/">
-            <el-breadcrumb-item v-for="(el, i) in breadcrumbList" :key="i">{{ el.title }}</el-breadcrumb-item>
-          </el-breadcrumb>
-        </div>
-        <!--用户信息-->
-        <div class="tm-user">
-          <el-dropdown @command="logOut">
-            <div class="tm-drop">
-              <el-avatar :src="user.avatar"></el-avatar>
-              <span class="el-dropdown-link">
-                {{ user ? user.nickname : '-' }}
-              </span>
-            </div>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>退出</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+    <div class="admin-box">
+      <!-- start顶部信息栏 -->
+      <div v-if="!isLogin" class="top-menu blur">
+        <div class="tm-main">
+          <!--菜单按钮-->
+          <div class="tm-left">
+            <i class="tm-btns el-icon-s-fold" @click="showMenu = !showMenu"></i>
+            <el-breadcrumb class="tm-bread" separator="/">
+              <el-breadcrumb-item v-for="(el, i) in breadcrumbList" :key="i">{{ el.title }}</el-breadcrumb-item>
+            </el-breadcrumb>
+          </div>
+          <!--用户信息-->
+          <div class="tm-user">
+            <el-dropdown @command="logOut">
+              <div class="tm-drop">
+                <el-avatar :src="user.avatar"></el-avatar>
+                <span class="el-dropdown-link">
+                  {{ user ? user.nickname : '-' }}
+                </span>
+              </div>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item>退出</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
         </div>
       </div>
-    </div>
-    <!-- end顶部信息栏 -->
+      <!-- end顶部信息栏 -->
 
-    <!-- start主要内容部分 -->
-    <div :class="{'more-left-space': showMenu, 'login-content': isLoginPage, 'admin-content': !isLoginPage}" class="halfWhite">
-      <div class="admin-main">
-        <el-tabs
-          v-if="activeRoutes.length && !isLoginPage"
-          v-model="currentRoute"
-          closable
-          @tab-click="clickTab"
-          @tab-remove="removeTab"
-        >
-          <el-tab-pane
-            v-for="item in activeRoutes"
-            :key="item.path"
-            :label="item.meta.title"
-            :name="item.path"
+      <!-- start主要内容部分 -->
+      <div :class="{'login-content': isLogin}" class="admin-content blur">
+        <div class="admin-main">
+          <!-- <el-tabs
+            v-if="activeRoutes.length && !isLogin"
+            v-model="currentRoute"
+            closable
+            @tab-click="clickTab"
+            @tab-remove="removeTab"
           >
-          </el-tab-pane>
-        </el-tabs>
-        <router-view />
+            <el-tab-pane
+              v-for="item in activeRoutes"
+              :key="item.path"
+              :label="item.meta.title"
+              :name="item.path"
+            >
+            </el-tab-pane>
+          </el-tabs> -->
+          <router-view />
+        </div>
       </div>
     </div>
-    <!-- end主要内容部分 -->
-    <div class="admin-bg"></div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import { State, Action } from 'vuex-class'
+import { State, Action, Mutation } from 'vuex-class'
 import YzpMenu from '@/components/common/YzpMenu.vue'
 
 @Component({
@@ -68,7 +68,6 @@ import YzpMenu from '@/components/common/YzpMenu.vue'
     YzpMenu,
   },
 })
-
 export default class App extends Vue {
   $refs!: {
     menu: HTMLFormElement,
@@ -77,7 +76,7 @@ export default class App extends Vue {
   breadcrumbList: object[] = []
   activeRoutes: object[] = []
   currentRoute: string = ''
-  isLoginPage: boolean = true
+  isLogin: boolean = true
 
   @State('token') token: any
   @State('user') user: any
@@ -85,24 +84,31 @@ export default class App extends Vue {
   @Watch('$route')
   WatchRoute(newVal: any) {
     this.setTtitle(newVal)
-    this.isLoginPage = newVal.path === '/login'
-    console.log(this.isLoginPage)
-    if (!this.isLoginPage) {
-      this.$refs.menu.setActiveMenu(newVal.path)
-      this.initBreadcrumb(newVal.path)
+    this.setLoginState(newVal)
+    if (!this.isLogin) {
+      this.$nextTick(function() {
+        this.$refs.menu.setActiveItem(newVal.name)
+        this.initBreadcrumb(newVal.path)
+      })
     }
   }
 
+  beforeCreate() {
+    this.isLogin = this.$route.name === 'Login'
+  }
+
   mounted() {
-    console.log('vuex: ', this.$router)
     this.activeRoutes = []
     this.currentRoute = ''
     this.setTtitle(this.$route)
-    this.isLoginPage = this.$route.path === '/login'
   }
 
   setTtitle(route: any) {
-    document.title = route.meta.title || ''
+    document.title = route.meta.title || '未命名'
+  }
+
+  setLoginState(route: any) {
+    this.isLogin = route.name === 'Login'
   }
 
   initBreadcrumb(path: string) {
@@ -123,7 +129,6 @@ export default class App extends Vue {
     this.breadcrumbList.push(parent)
     let sub = child
     if (parent.path) {
-      // this.$router.push(parent.path)
       sub = parent
     }
     if (sub) {
@@ -158,7 +163,8 @@ export default class App extends Vue {
     this.activeRoutes = []
     this.currentRoute = ''
     this.resetUser()
-    this.$router.replace('/login')
+    this.isLogin = true
+    this.$router.replace(`/Login?referrer=${this.$route.path}`)
   }
 }
 </script>
@@ -179,12 +185,12 @@ export default class App extends Vue {
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 0;
+  z-index: -1;
   background-attachment: fixed;
   background-size: cover;
   background-position: center center;
   position: absolute;
-  filter: blur(10px);
+  filter: blur(15px);
 }
 @mixin halfWhitebg {
   content: '';
@@ -192,10 +198,11 @@ export default class App extends Vue {
   width: 100%;
   height: 100%;
   background-color: rgba(255,255,255,0.5)!important;
+  background-image: url('~@/assets/img/overlay.png');
   position: absolute;
   left: 0;
   top: 0;
-  z-index: 1;
+  z-index: 0;
 }
 @mixin scrolBarStyle {
   &::-webkit-scrollbar {
@@ -208,13 +215,32 @@ export default class App extends Vue {
     @include halfBlack;
   }
 }
+
+* {
+  padding: 0;
+  margin: 0;
+  outline: none;
+}
+html, body {
+  height: 100%;
+}
+body {
+  background-color: #f5f5f5;
+  // background-image: url('~@/assets/img/blueprint.png');
+  font-family: 'Microsoft YaHei';
+  font-size: 14px;
+  background-attachment: fixed;
+  color: #333333;
+}
 .halfWhite {
   @include halfWhite;
 }
 .blur {
+  position: relative;
   overflow: hidden;
   &:before {
     @include halfWhitebg;
+    background-color: rgba(255,255,255,0.5)!important;
   }
   &:after {
     @include blurBg;
@@ -226,136 +252,103 @@ export default class App extends Vue {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   height: 100%;
-}
-* {
-  padding: 0;
-  margin: 0;
-}
-html, body {
-  height: 100%;
-}
-body {
-  background-color: #f5f5f5;
-  background-image: url('~@/assets/img/blueprint.png');
-  font-family: 'Microsoft YaHei';
-  font-size: 14px;
-  background-attachment: fixed;
-  color: #333333;
-}
-.form-search {
   display: flex;
   justify-content: space-between;
-}
-.admin-bg {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
+  overflow: hidden;
   &:before {
     @include halfWhitebg;
+    background-color: rgba(255,255,255,0.3)!important;
     position: fixed;
   }
   &:after {
     @include blurBg;
     position: fixed;
+    filter: blur(0);
   }
-}
-.admin-content {
-  position: absolute;
-  left: 270px;
-  right: 20px;
-  top: 80px;
-  transition: left 0.5s;
-  bottom: 20px;
-  border-radius: 5px;
-  overflow-y: auto;
-  @include scrolBarStyle;
-  &.more-left-space {
-    left: 84px;
-  }
-  .admin-main {
-    padding: 20px;
-    position: relative;
-    z-index: 1;
-    
-  }
-}
-.login-content {
-  overflow: hidden;
-  left: 270px;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background: none;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: none;
-  margin-bottom: 0;
-  .admin-main {
-    padding: 0;
-  }
-}
-.top-menu {
-  position: fixed;
-  right: 0;
-  top: 0;
-  left: 250px;
-  z-index: 5;
-  background: rgba(255,255,255,0.8);
-  height: 60px;
-  transition: all 0.5s;
-  &.more-left-space {
-    left: 64px;
-  }
-  .tm-main {
-    height: 100%;
-    padding: 0 20px;
+  .admin-box {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: space-between;
-    position: relative;
-    z-index: 1;
-  }
-  .tm-left {
-    height: 100%;
-    display: flex;
-    align-items: center;
-  }
-  .tm-bread {
-    margin-left: 15px;
-  }
-  .tm-user {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    .tm-drop {
-      display: flex;
-      align-items: center;
+    flex: 1;
+    overflow: hidden;
+    .top-menu {
+      position: relative;
+      z-index: 5;
+      height: 60px;
+      transition: all 0.5s;
+      .tm-main {
+        height: 100%;
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        z-index: 1;
+      }
+      .tm-left {
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
+      .tm-bread {
+        margin-left: 15px;
+      }
+      .tm-user {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        .tm-drop {
+          display: flex;
+          align-items: center;
+        }
+        .el-dropdown-link {
+          margin-left: 10px;
+        }
+      }
+      .tm-btns {
+        display: inline-block;
+        font-size: 26px;
+        color: #999999;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.7;
+        }
+      }
     }
-    .el-dropdown-link {
-      margin-left: 10px;
+    .admin-content {
+      margin: 20px;
+      transition: left 0.5s;
+      border-radius: 5px;
+      flex: 1;
+      position: relative;
+      z-index: 5;
+      overflow: hidden;
+      &.login-content {
+        margin: 0;
+        .admin-main {
+          padding: 0;
+        }
+      }
+      .admin-main {
+        position: relative;
+        z-index: 1;
+        padding: 20px;
+        height: calc(100% - 40px);
+        overflow-y: auto;
+        @include scrolBarStyle;
+      }
     }
   }
-  .tm-btns {
-    display: inline-block;
-    font-size: 26px;
-    color: #999999;
-    cursor: pointer;
-    &:hover {
-      opacity: 0.7;
-    }
-  }
+}
+.form-search {
+  display: flex;
+  justify-content: space-between;
 }
 .el-table td .el-button i[class*="el-"]{
   margin-right: 0;
   vertical-align: baseline;
 }
-.el-table__fixed, .el-table__fixed-right { @include halfWhitebg; }
+.el-table__fixed, .el-table__fixed-right { @include halfWhite; }
 .el-table__body-wrapper.is-scrolling-none ~ .el-table__fixed, .el-table__body-wrapper.is-scrolling-none ~ .el-table__fixed-right {
   background: none;
 }
@@ -376,8 +369,27 @@ body {
     height: 5px;
   }
 }
+.el-table--striped .el-table__body tr.el-table__row--striped td {
+  background: rgba(255,255,255,0.3)!important
+}
 .tox .tox-edit-area__iframe {
-  @include halfWhitebg;
+  @include halfWhite;
+}
+.el-message{ top:30%!important; left: 50%; }
+.el-drawer__header { margin-bottom: 0 }
+.el-drawer {
+  background: none!important;
+}
+.el-drawer__body {
+  .demo-drawer__content {
+    position: relative;
+  }
+  &:before {
+    @include halfWhitebg;
+  }
+  &:after {
+    @include blurBg;
+  }
 }
 @import '~@/assets/css/yzp-default.scss'
 </style>

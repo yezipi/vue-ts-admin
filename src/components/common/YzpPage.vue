@@ -14,10 +14,12 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
+const blockObj: object = {}
+
 @Component
 export default class YzpPage extends Vue {
   @Prop({ default: '' }) api!: string
-  @Prop({ default: {} }) condition!: object
+  @Prop({ default: () => blockObj }) condition!: object
 
   filter: any = {
     page: 1,
@@ -28,7 +30,9 @@ export default class YzpPage extends Vue {
   list: object[] = []
 
   mounted() {
-    this.getList()
+    this.$nextTick(function() {
+      this.getList()
+    })
   }
 
   init() {
@@ -42,7 +46,7 @@ export default class YzpPage extends Vue {
     }
     try {
       const api = this.api.split('.')
-      const params = {  ...this.filter, ...this.condition }
+      const params = {  ...this.filter, ...this.condition, loading: true }
       console.log(this.api)
       const { result: { rows, count } } = await this.$api[api[0]][api[1]](params)
       this.total = count

@@ -111,12 +111,12 @@ export default class YzpUpload extends Vue {
         const base64 = target.result
         const byteString = atob(base64.split(',')[1]);
         const mimeString = base64.split(',')[0].split(':')[1].split(';')[0];
-        const ab = new ArrayBuffer(byteString.length);
-        const ia = new Uint8Array(ab);
+        const buffs = new ArrayBuffer(byteString.length);
+        const u8a = new Uint8Array(buffs);
         for (let i = 0; i < byteString.length; i++) {
-          ia[i] = byteString.charCodeAt(i);
+          u8a[i] = byteString.charCodeAt(i);
         }
-        const blob = new Blob([ab], {type: mimeString});
+        const blob = new Blob([buffs], {type: mimeString});
         resolve(URL.createObjectURL(blob))
       }
     })
