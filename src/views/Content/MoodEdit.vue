@@ -44,7 +44,7 @@
       
     </el-form>
     <!--#######地图选点组件#######-->
-    <el-dialog title="选择地址" :visible.sync="dialogVisible" :close-on-click-modal="false">
+    <el-dialog title="选择地址" :visible.sync="dialogVisible" append-to-body :close-on-click-modal="false">
       <div class="amap-page-container">
         <el-amap-search-box
           class="search-box"

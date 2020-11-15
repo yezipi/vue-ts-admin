@@ -4,7 +4,7 @@
     <el-form size="small" class="form-search" inline label-width="80px">
       <div class="fs-left"></div>
       <div class="fs-right">
-        <router-link :to="{path: '/moodEdit'}">
+        <router-link :to="{path: '/MoodEdit'}">
           <el-button type="primary" size="small" icon="el-icon-edit-outline">
             创建微语
           </el-button>
