@@ -131,7 +131,14 @@ const routes: RouteConfig[] = [
     name: 'UserIndex',
     meta: { title: '用户管理', noLink: true, role: [1, 2], icon: 'el-icon-user' },
     component: () => import(/* webpackChunkName: "UserIndex" */ '@/views/User/Index.vue'),
-    children: [],
+    children: [
+      {
+        path: '/UserList',
+        name: 'UserList',
+        meta: { title: '用户列表', noLink: true, role: [1, 2], icon: 'el-icon-s-custom' },
+        component: () => import(/* webpackChunkName: "UserList" */ '@/views/User/UserList.vue'),
+      },
+    ],
   },
   {
     path: '',

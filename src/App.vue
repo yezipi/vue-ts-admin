@@ -51,7 +51,9 @@
             >
             </el-tab-pane>
           </el-tabs> -->
-          <router-view />
+          <transition name="slide-fade">
+            <router-view />
+          </transition>
         </div>
       </div>
     </div>

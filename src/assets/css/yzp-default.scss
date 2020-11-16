@@ -30,6 +30,9 @@
   }
   .el-submenu .el-menu {
     background-color: rgba(0,0,0,0.15)!important;
+    .el-menu-item.is-active {
+      @include halfBlack;
+    }
   }
   
   .el-submenu__title i {

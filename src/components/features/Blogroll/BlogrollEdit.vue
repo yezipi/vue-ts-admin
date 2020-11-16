@@ -2,10 +2,6 @@
   <yzp-drawer v-model="drawVisible" :loading="loading" title="编辑评论" @confirm="confirm" @open="open" @close="close">
     <el-form ref="ruleForm" :model="ruleForm" status-icon label-width="100px" class="demo-ruleForm">
 
-      <el-form-item v-if="ruleForm.art_title" label="所属文章">
-        <span>{{ ruleForm.art_title }}</span>
-      </el-form-item>
-
       <!-- <el-form-item label="头像">
         <span>{{ ruleForm.avatar }}</span>
       </el-form-item> -->
@@ -94,7 +90,10 @@ export default class extends Vue {
 
   drawVisible: boolean = false
 
-  ruleForm: any = { is_notice: false }
+  ruleForm: any = {
+    is_notice: false,
+    nickname: '',
+  }
 
   @Watch('value')
   WatchOpen(newVal: any) {
@@ -111,6 +110,9 @@ export default class extends Vue {
   }
 
   async getInfo() {
+    if (!this.id) {
+      return
+    }
     try {
       const params = { id: this.id }
       const{ result } = await this.$api.blogroll.info(params)
@@ -124,7 +126,11 @@ export default class extends Vue {
     this.loading = true
     try {
       const params = { id: this.id, ...this.ruleForm }
-      await this.$api.blogroll.update(params)
+      if (this.id) {
+        await this.$api.blogroll.update(params)
+      } else {
+        await this.$api.blogroll.create(params)
+      }
       this.$message.success({
         message: this.id ? '创建成功' : '保存成功',
         onClose: () => {

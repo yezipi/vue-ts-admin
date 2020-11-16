@@ -12,7 +12,7 @@
 
       <div class="fs-right">
         <el-button type="primary" size="small" icon="el-icon-edit-outline" @click="openEdit('')">
-          创建友链
+          创建用户
         </el-button>
       </div>
 
@@ -24,27 +24,13 @@
       class="admin-table"
       style="width: 100%">
 
+      <el-table-column label="账号" prop="name"></el-table-column>
+
       <el-table-column label="昵称" prop="nickname"></el-table-column>
 
-      <el-table-column prop="content" width="300" label="内容"></el-table-column>
-
-      <el-table-column prop="ip" label="ip" width="120">
-        <template slot-scope="scope">{{ scope.row.ip || '-' }}</template>
-      </el-table-column>
-
-      <el-table-column prop="address" label="位置" width="140">
-        <template slot-scope="scope">{{ scope.row.address || '-' }}</template>
-      </el-table-column>
-
-      <el-table-column prop="site" label="站点" width="150">
-        <template slot-scope="scope">{{ scope.row.site || '-' }}</template>
-      </el-table-column>
-
-      <el-table-column prop="ua" label="设备">
-        <template slot-scope="scope">{{ scope.row.ua || '-' }}</template>
-      </el-table-column>
-
-      <el-table-column prop="time" label="时间" width="120">
+      <el-table-column label="类型" prop="role"></el-table-column>
+     
+      <el-table-column prop="time" label="时间">
         <template slot-scope="scope">
           <span>{{ scope.row.time | $formatTime }}</span>
         </template>
@@ -58,13 +44,13 @@
             :value="scope.row.status"
             :id="scope.row.id"
             fields="status"
-            api="blogroll.update"
+            api="user.update"
             @change="init">
           </yzp-update-btn>
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="100">
+      <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
             type="text"
@@ -73,15 +59,15 @@
           >
             编辑
           </el-button>
-          <yzp-remove-btn :id="scope.row.id" api="blogroll.remove" @change="pageRefs.getList()"></yzp-remove-btn>
+          <yzp-remove-btn :id="scope.row.id" api="user.remove" @change="pageRefs.getList()"></yzp-remove-btn>
         </template>
       </el-table-column>
 
     </el-table>
 
-    <blogroll-edit v-model="editVisible" :id="currId" @success="init"></blogroll-edit>
+    <user-edit v-model="editVisible" :id="currId" @success="init"></user-edit>
 
-    <yzp-page :condition="filter" ref="page" api="blogroll.getList" @load="load"></yzp-page>
+    <yzp-page :condition="filter" ref="page" api="user.getList" @load="load"></yzp-page>
 
   </div>
 </template>
@@ -90,9 +76,9 @@
 
 import { Component, Vue } from 'vue-property-decorator'
 
-import BlogrollEdit from '@/components/features/Blogroll/BlogrollEdit.vue'
+import UserEdit from '@/components/features/User/UserEdit.vue'
 
-@Component({ name: 'BlogrollList', components: { BlogrollEdit } })
+@Component({ name: 'UserList', components: { UserEdit } })
 export default class extends Vue {
 
   total: number = 0
