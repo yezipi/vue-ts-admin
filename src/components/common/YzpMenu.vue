@@ -64,6 +64,9 @@ export default class extends Vue {
 
   onSubMenuClick(parent: any, child: any) {
     const path = parent.path || child.path
+    if (!path) {
+      return
+    }
     const route: any = this.$route
     if (path !== route.path) {
       this.$emit('onMenuItemClick', { parent, child })
@@ -83,7 +86,7 @@ export default class extends Vue {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px 0;
+  margin: 40px 0;
   position: relative;
   z-index: 1;
   flex-shrink: 0;

@@ -100,9 +100,44 @@ const routes: RouteConfig[] = [
   },
   {
     path: '',
-    name: 'Link',
+    name: 'BlogrollIndex',
     meta: { title: '友链管理', noLink: true, role: [1, 2], icon: 'el-icon-link' },
-    component: () => import(/* webpackChunkName: "LinkIndex" */ '@/views/Link/Index.vue'),
+    component: () => import(/* webpackChunkName: "BlogrollIndex" */ '@/views/Blogroll/Index.vue'),
+    children: [
+      {
+        path: '/BlogrollList',
+        name: 'BlogrollList',
+        meta: { title: '友链列表', role: [1, 2], icon: 'el-icon-paperclip' },
+        component: () => import(/* webpackChunkName: "BlogrollList" */ '@/views/Blogroll/BlogrollList.vue'),
+      },
+    ],
+  },
+  {
+    path: '',
+    name: 'AlbumIndex',
+    meta: { title: '相册管理', noLink: true, role: [1, 2], icon: 'el-icon-picture-outline' },
+    component: () => import(/* webpackChunkName: "AlbumIndex" */ '@/views/Album/Index.vue'),
+    children: [],
+  },
+  {
+    path: '',
+    name: 'ColumnIndex',
+    meta: { title: '栏目管理', noLink: true, role: [1, 2], icon: 'el-icon-menu' },
+    component: () => import(/* webpackChunkName: "ColumnIndex" */ '@/views/Column/Index.vue'),
+    children: [],
+  },
+  {
+    path: '',
+    name: 'UserIndex',
+    meta: { title: '用户管理', noLink: true, role: [1, 2], icon: 'el-icon-user' },
+    component: () => import(/* webpackChunkName: "UserIndex" */ '@/views/User/Index.vue'),
+    children: [],
+  },
+  {
+    path: '',
+    name: 'SettingsIndex',
+    meta: { title: '系统设置', noLink: true, role: [1, 2], icon: 'el-icon-setting' },
+    component: () => import(/* webpackChunkName: "SettingsIndex" */ '@/views/Settings/Index.vue'),
     children: [],
   },
 ]

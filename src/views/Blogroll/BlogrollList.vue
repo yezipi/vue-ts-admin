@@ -3,21 +3,17 @@
     <el-form size="small" class="form-search" inline label-width="80px">
 
       <div class="fs-left">
-        <el-form-item v-if="type === 'article'">
-          <el-select v-model="filter.type" placeholder="请选择类型" clearable @change="pageRefs.getList()">
-            <el-option
-              v-for="(item, index) in commentType"
-              :key="index"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="">
           <el-input v-model="filter.keywords" placeholder="请输入内容" class="input-with-select" clearable>
             <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
           </el-input>
         </el-form-item>
+      </div>
+
+      <div class="fs-right">
+        <el-button type="primary" size="small" icon="el-icon-edit-outline" @click="openEdit">
+          创建友链
+        </el-button>
       </div>
 
     </el-form>
@@ -31,14 +27,6 @@
       <el-table-column prop="content" width="300" label="内容"></el-table-column>
 
       <el-table-column label="昵称" prop="nickname"></el-table-column>
-
-      <el-table-column v-if="type === 'article'" label="类型" prop="sub_column">
-        <template slot-scope="scope">{{ $dict.COMMENT.TYPE[ scope.row.type ] }}</template>
-      </el-table-column>
-      
-      <el-table-column v-if="type === 'article'" label="所属内容" prop="article.title" width="200">
-        <template slot-scope="scope">《{{ scope.row.article ? scope.row.article.title : '-' }}》</template>
-      </el-table-column>
 
       <el-table-column label="是否回复" prop="article.title">
         <template slot-scope="scope">
@@ -71,15 +59,13 @@
         prop="status"
         label="是否显示">
         <template slot-scope="scope">
-         <el-switch
-            v-model="scope.row.status"
-            :active-value="1"
-            :inactive-value="0"
-            size="mini"
-            inactive-color="#999"
-            @change="update(scope.row)"
-          >
-          </el-switch>
+          <yzp-update-btn
+            :value="scope.row.status"
+            :id="scope.row.id"
+            fields="status"
+            api="blogroll.update"
+            @change="init">
+          </yzp-update-btn>
         </template>
       </el-table-column>
 
@@ -92,53 +78,32 @@
           >
             编辑
           </el-button>
-          <el-button
-            type="text"
-            size="mini"
-            @click="remove(scope.row)"
-          >
-            删除
-          </el-button>
+          <yzp-remove-btn :id="scope.row.id" api="blogroll.remove" @change="pageRefs.getList()"></yzp-remove-btn>
         </template>
       </el-table-column>
 
     </el-table>
 
-    <interact-edit v-model="editVisible" :id="currId" :type="type" @success="init"></interact-edit>
+    <blogroll-edit v-model="editVisible" :id="currId" @success="init"></blogroll-edit>
 
-    <yzp-page :condition="filter" ref="page" :api="apiDict[type].list" @load="load"></yzp-page>
+    <yzp-page :condition="filter" ref="page" api="blogroll.getList" @load="load"></yzp-page>
 
   </div>
 </template>
 
 <script lang="ts">
 
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import { dictToArray } from '@/utils/index'
 
-import InteractEdit from '@/components/features/Interact/InteractEdit.vue'
+import BlogrollEdit from '@/components/features/Blogroll/BlogrollEdit.vue'
 
-@Component({ name: 'CommentTable', components: { InteractEdit } })
+@Component({ name: 'BlogrollList', components: { BlogrollEdit } })
 export default class extends Vue {
-  @Prop({ default: 'article' }) type!: string
 
   total: number = 0
   filter: any = { }
   list: object[] = []
-  category: object[] = []
-  apiDict: any = {
-    article: {
-      update: 'comment.update',
-      remove: 'comment.remove',
-      list: 'comment.getList',
-    },
-    feedback: {
-      update: 'comment.update',
-      remove: 'comment.remove',
-      list: 'comment.getList',
-    },
-  }
-
   editVisible: boolean = false
   currId: string = ''
 
@@ -146,20 +111,9 @@ export default class extends Vue {
     return this.$refs.page
   }
 
-  get commentType() {
-    return dictToArray(this.$dict.COMMENT.TYPE)
-  }
-
   openEdit(id: string) {
-    if (!id) {
-      return this.$message('id不存在')
-    }
     this.currId = id
     this.editVisible = true
-  }
-
-  created() {
-    this.filter.type = this.type
   }
 
   search() {
@@ -174,19 +128,6 @@ export default class extends Vue {
    this.pageRefs.init()
   }
 
-  remove({ id, type }: any) {
-    const me: any = this
-    me.$doDelete(this.apiDict[type].remove, { id, type }).then(() => {
-      me.init()
-    })
-  }
-
-  update({ id, type, status }: any) {
-    const me: any = this
-    me.$doUpdate(this.apiDict[type].update, { id, type, status }).then(() => {
-      me.pageRefs.getList()
-    })
-  }
 }
 </script>
 

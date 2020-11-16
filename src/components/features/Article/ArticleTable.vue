@@ -6,13 +6,11 @@
         <el-form-item label="">
           <classification v-model="filter.sub_column_id" style="max-width: 500px;display: block"></classification>
         </el-form-item>
-
         <el-form-item label="">
           <el-input v-model="filter.keywords" placeholder="请输入内容" class="input-with-select" clearable>
             <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
           </el-input>
         </el-form-item>
-
       </div>
 
       <div class="fs-right">

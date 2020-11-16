@@ -88,7 +88,6 @@ import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 @Component({ name: 'InteractEdit' })
 export default class extends Vue {
   @Prop({ default: false }) value!: boolean
-  @Prop({ default: 'article' }) type!: string
   @Prop({ default: '' }) id!: string
 
   loading: boolean = false
@@ -112,17 +111,10 @@ export default class extends Vue {
   }
 
   async getInfo() {
-    console.log(this.type)
     try {
-      let data: any = {}
-      const params = { id: this.id, type: this.type}
-      if (this.type === 'article') {
-        data = await this.$api.comment.info(params)
-      }
-      if (this.type === 'feedback') {
-        data = await this.$api.feedback.info(params)
-      }
-      this.ruleForm = data.result
+      const params = { id: this.id }
+      const{ result } = await this.$api.blogroll.info(params)
+      this.ruleForm = result
     } catch (e) {
       console.log(e)
     }
@@ -131,15 +123,10 @@ export default class extends Vue {
   async confirm() {
     this.loading = true
     try {
-      const params = { id: this.id, type: this.type, ...this.ruleForm }
-      if (this.type === 'article') {
-        await this.$api.comment.update(params)
-      }
-      if (this.type === 'feedback') {
-        await this.$api.feedback.update(params)
-      }
+      const params = { id: this.id, ...this.ruleForm }
+      await this.$api.blogroll.update(params)
       this.$message.success({
-        message: this.ruleForm.is_notice ? '保存成功并向对方发送邮件' : '保存成功',
+        message: this.id ? '创建成功' : '保存成功',
         onClose: () => {
           this.$emit('success', true)
         },

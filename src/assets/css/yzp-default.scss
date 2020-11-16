@@ -24,13 +24,12 @@
   @include scrolBarStyle;
   .el-menu-item.is-active {
     color: #ffffff;
-    @include halfBlack;
   }
   .el-submenu__title:hover, .el-menu-item:hover {
     @include halfBlack;
   }
   .el-submenu .el-menu {
-    background-color: rgba(0,0,0,0.1)!important;
+    background-color: rgba(0,0,0,0.15)!important;
   }
   
   .el-submenu__title i {

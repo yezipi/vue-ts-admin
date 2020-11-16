@@ -380,7 +380,7 @@ body {
 .el-drawer {
   background: none!important;
 }
-.el-drawer__body {
+.el-drawer__body, .dialogMainModal, .el-dialog {
   .demo-drawer__content {
     position: relative;
   }
@@ -389,6 +389,36 @@ body {
   }
   &:after {
     @include blurBg;
+  }
+}
+.el-dialog {
+  background: none;
+}
+.i-dialog-footer, .el-dialog__footer {
+  position: relative;
+}
+.dialogBoxModal {
+  position: fixed!important;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  div.dialogMainModal {
+    background: none;
+    overflow: hidden;
+    line-height: initial;
+    top: initial;
+    left: initial;
+    transform: translateX(0);
+    border: 0;
+    margin: auto;
+  }
+  .toolMain {
+    position: relative;
   }
 }
 @import '~@/assets/css/yzp-default.scss'
