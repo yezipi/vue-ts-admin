@@ -40,6 +40,16 @@ class Common extends request {
     return this.post(url, formData, headers)
   }
 
+  /**
+   * @name 删除node图片
+   * @param { FormData } formData
+   * @param { Object } headers
+   */
+  deleteImg(path: any) {
+    const url = '/upload/delete'
+    return this.delete(url, { path, loading: true })
+  }
+
 }
 
 export default new Common()

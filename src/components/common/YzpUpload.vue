@@ -1,7 +1,6 @@
 <template>
   <div class="upload-wrap">
     <el-upload
-      v-if="clip"
       :http-request="chooseImages"
       :disabled="loading"
       :on-error="uploadError"
@@ -32,7 +31,8 @@
       :showChooseBtn="false"
       :cutWidth="width"
       :cutHeight="height"
-      WatermarkText="@椰子皮"
+      :sizeChange="sizeChange"
+      :WatermarkText="watermark ? '@椰子皮' : ''"
       WatermarkTextFont="14px Sans-serif"
       ref="cropper"
       @cutDown="cutDown"
@@ -64,6 +64,7 @@ export default class YzpUpload extends Vue {
   @Prop({ default: '' }) filename!: string
   @Prop({ default: false }) watermark!: boolean
   @Prop({ default: false }) clip!: boolean
+  @Prop({ default: false }) sizeChange!: boolean // 是否能调整裁剪框
 
   url: string = '';
   dialogVisible: boolean = false;
@@ -145,6 +146,7 @@ export default class YzpUpload extends Vue {
     };
     try {
       const { result } = await this.$api.common.upload(formData, config);
+      console.log(result.path)
       this.$emit('input', result.path || result.thumb_path);
       this.$message.success('上传成功~');
     } catch (e) {
@@ -181,10 +183,18 @@ export default class YzpUpload extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.upload-wrap {
+  width: 120px;
+  height: 120px;
+}
 /deep/ .vue-cutter .i-dialog-footer { overflow: hidden; }
 .upload-ref {
+  width: 100%;
+  height: 100%;
   /deep/.el-upload {
     background-color: rgba(255,255,255,0.5)!important;
+    width: 100%;
+    height: 100%;
   }
   &.icon {
     .upload-view, .upload-icon {

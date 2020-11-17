@@ -8,7 +8,7 @@ const routes: RouteConfig[] = [
     path: '/',
     name: 'Home',
     component: () => import(/* webpackChunkName: "Home" */ '@/views/Home.vue'),
-    meta: { title: '首页', icon: 'el-icon-s-home' },
+    meta: { title: '系统首页', icon: 'el-icon-s-home' },
   },
   {
     path: '/404',
@@ -145,7 +145,32 @@ const routes: RouteConfig[] = [
     name: 'SettingsIndex',
     meta: { title: '系统设置', noLink: true, role: [1, 2], icon: 'el-icon-setting' },
     component: () => import(/* webpackChunkName: "SettingsIndex" */ '@/views/Settings/Index.vue'),
-    children: [],
+    children: [
+      {
+        path: '/AdSettings',
+        name: 'AdSettings',
+        meta: { title: '广告设置', role: [1, 2], icon: 'el-icon-s-flag' },
+        component: () => import(/* webpackChunkName: "AdSettings" */ '@/views/Settings/AdSettings.vue'),
+      },
+      {
+        path: '/MailSettings',
+        name: 'MailSettings',
+        meta: { title: '邮件设置', role: [1, 2], icon: 'el-icon-message' },
+        component: () => import(/* webpackChunkName: "MailSettings" */ '@/views/Settings/MailSettings.vue'),
+      },
+      {
+        path: '/CustomSettings',
+        name: 'CustomSettings',
+        meta: { title: '个性化设置', role: [1, 2], icon: 'el-icon-s-open' },
+        component: () => import(/* webpackChunkName: "CustomSettings" */ '@/views/Settings/CustomSettings.vue'),
+      },
+      {
+        path: '/BaseSettings',
+        name: 'BaseSettings',
+        meta: { title: '基本设置', role: [1, 2], icon: 'el-icon-s-tools' },
+        component: () => import(/* webpackChunkName: "BaseSettings" */ '@/views/Settings/BaseSettings.vue'),
+      },
+    ],
   },
 ]
 

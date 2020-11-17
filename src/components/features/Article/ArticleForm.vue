@@ -14,9 +14,9 @@
           v-model="ruleForm.cover_small"
           :thumb="true"
           :clip="true"
-          dir="article_cover"
           :height="250"
           :width="500"
+          dir="article_cover"
         >
         </yzp-upload>
       </el-form-item>
@@ -113,14 +113,12 @@
 import { State } from 'vuex-class'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 
-import YzpUpload from '@/components/common/YzpUpload.vue'
 import YzpEditor from '@/components/common/YzpEditor.vue'
 import Classification from '@/components/features/Article/Classification.vue'
 
 @Component({
   components: {
     YzpEditor,
-    YzpUpload,
     Classification,
   },
 })

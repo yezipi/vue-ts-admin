@@ -12,16 +12,16 @@ import moment from 'moment'
 import './assets/theme/index.css'
 
 
-
-import VueAMap from 'vue-amap';
+import YzpUpload from '@/components/common/YzpUpload.vue'
 import YzpPage from '@/components/common/YzpPage.vue'
 import YzpDrawer from '@/components/common/YzpDrawer.vue'
 import YzpRemoveBtn from '@/components/common/YzpRemoveBtn.vue'
 import YzpUpdateBtn from '@/components/common/YzpUpdateBtn.vue'
-
+import VueAMap from 'vue-amap';
 
 Vue.config.productionTip = false
 
+Vue.component('yzp-upload', YzpUpload)
 Vue.component('yzp-page', YzpPage)
 Vue.component('yzp-drawer', YzpDrawer)
 Vue.component('yzp-remove-btn', YzpRemoveBtn)

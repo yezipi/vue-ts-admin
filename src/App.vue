@@ -100,6 +100,7 @@ export default class App extends Vue {
   }
 
   mounted() {
+    console.log(this)
     this.activeRoutes = []
     this.currentRoute = ''
     this.setTtitle(this.$route)
@@ -183,7 +184,7 @@ export default class App extends Vue {
   display: block;
   width: 100%;
   height: 100%;
-  background-image: url('~@/assets/img/bg.jpg');
+  background-image: url('/api/static/upload/webbg/webbg_4.jpg');
   position: fixed;
   left: 0;
   top: 0;
@@ -382,7 +383,7 @@ body {
 .el-drawer {
   background: none!important;
 }
-.el-drawer__body, .dialogMainModal, .el-dialog {
+.el-drawer__body, .dialogMainModal, .el-dialog, .el-select-dropdown__list {
   .demo-drawer__content {
     position: relative;
   }
