@@ -10,6 +10,9 @@ import feedback from '@/api/feedback'
 import user from '@/api/user'
 import blogroll from '@/api/blogroll'
 import settings from '@/api/settings'
+import column from '@/api/column'
+import album from '@/api/album'
+import picture from '@/api/picture'
 // const api: any = {
 //   common,
 //   article,
@@ -33,6 +36,9 @@ const api: any = class Api {
   user = user
   blogroll = blogroll
   settings = settings
+  column = column
+  album = album
+  picture = picture
 }
 
 export default new api();

@@ -395,7 +395,7 @@ body {
   }
 }
 .el-dialog {
-  background: none;
+  background: none!important;
 }
 .i-dialog-footer, .el-dialog__footer {
   position: relative;
@@ -423,6 +423,17 @@ body {
   .toolMain {
     position: relative;
   }
+}
+.tox-tinymce-aux {
+  z-index: 9999!important;
+}
+.el-drawer__body {
+  height: 100%;
+  overflow-y: auto;
+}
+.demo-drawer__content form {
+   @include scrolBarStyle;
+  overflow-y: auto;
 }
 @import '~@/assets/css/yzp-default.scss'
 </style>

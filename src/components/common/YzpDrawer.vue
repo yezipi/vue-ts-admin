@@ -3,6 +3,8 @@
     :title="title"
     :before-close="onClose"
     :visible.sync="drawVisible"
+    :size="width"
+    :wrapperClosable="wrapperClosable"
     append-to-body
     direction="rtl"
     custom-class="demo-drawer"
@@ -36,6 +38,8 @@ export default class extends Vue {
   @Prop({ default: false }) value!: boolean
   @Prop({ default: false }) disabled!: boolean
   @Prop({ default: false }) loading!: boolean
+  @Prop({ default: '30%' }) width!: string
+  @Prop({ default: true }) wrapperClosable!: boolean
 
   drawVisible: boolean = false
 

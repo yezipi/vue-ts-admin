@@ -117,14 +117,34 @@ const routes: RouteConfig[] = [
     name: 'AlbumIndex',
     meta: { title: '相册管理', noLink: true, role: [1, 2], icon: 'el-icon-picture-outline' },
     component: () => import(/* webpackChunkName: "AlbumIndex" */ '@/views/Album/Index.vue'),
-    children: [],
+    children: [
+      {
+        path: '/AlbumList',
+        name: 'AlbumList',
+        meta: { title: '相册列表', role: [1, 2], icon: 'el-icon-camera' },
+        component: () => import(/* webpackChunkName: "AlbumList" */ '@/views/Album/AlbumList.vue'),
+      },
+      {
+        path: '/PictureList',
+        name: 'PictureList',
+        meta: { title: '相册列表', role: [1, 2], icon: 'el-icon-picture' },
+        component: () => import(/* webpackChunkName: "PictureList" */ '@/views/Album/PictureList.vue'),
+      },
+    ],
   },
   {
     path: '',
     name: 'ColumnIndex',
     meta: { title: '栏目管理', noLink: true, role: [1, 2], icon: 'el-icon-menu' },
     component: () => import(/* webpackChunkName: "ColumnIndex" */ '@/views/Column/Index.vue'),
-    children: [],
+    children: [
+      {
+        path: '/ColumnList',
+        name: 'ColumnList',
+        meta: { title: '栏目列表', role: [1, 2], icon: 'el-icon-s-grid' },
+        component: () => import(/* webpackChunkName: "ColumnList" */ '@/views/Column/ColumnList.vue'),
+      },
+    ],
   },
   {
     path: '',

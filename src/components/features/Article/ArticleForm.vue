@@ -190,7 +190,6 @@ export default class extends Vue {
 
   submitForm() {
     const ruleForm: any = this.$refs.ruleForm
-    console.log(this.$refs.editor)
     ruleForm.validate((valid: any) => {
       if (valid) {
         this.save()
