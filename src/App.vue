@@ -383,7 +383,7 @@ body {
 .el-drawer {
   background: none!important;
 }
-.el-drawer__body, .dialogMainModal, .el-dialog, .el-select-dropdown__list {
+.el-drawer__body, .dialogMainModal, .el-dialog, .el-select-dropdown__list, .tox .tox-dialog {
   .demo-drawer__content {
     position: relative;
   }
@@ -435,5 +435,32 @@ body {
    @include scrolBarStyle;
   overflow-y: auto;
 }
+/*================= editor样式 ========================*/
+.tox .tox-dialog__footer, .tox .tox-dialog__header {
+  overflow: hidden;
+  background: none!important;
+  border: none!important;
+  z-index: 2!important;
+}
+.tox .tox-dialog, .tox .tox-toolbar__primary {
+  background: none!important;
+}
+.tox .tox-dialog {
+  &:before {
+    background: rgba(255,255,255,0.7)
+  }
+  &:after {
+    filter: blur(25px);
+    opacity: 0.8;
+  }
+}
+.tox .tox-dialog__content-js {z-index: 1;}
+.tox .tox-textfield, .tox .tox-menubar, .tox .tox-toolbar-overlord, .tox .tox-statusbar {
+  @include halfWhite;
+}
+.tox .tox-editor-header {
+  border-bottom: 1px solid #bbbbbb
+}
+/*================= editor样式结束 ========================*/
 @import '~@/assets/css/yzp-default.scss'
 </style>
