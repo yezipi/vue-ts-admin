@@ -63,9 +63,8 @@ export default class extends Vue {
       // 图片上传回调
       images_upload_handler: (blobInfo: any, success: any) => {
         const file = blobInfo.blob()
-        console.log(file)
-        this.$api.common.aliyunUpload(file, 'donggu').then((url: any) => {
-          success(url)
+        this.uploadToServe(file).then((url: any) => {
+          success('/api' + url)
         })
       },
     }
@@ -83,6 +82,35 @@ export default class extends Vue {
   setContent(str: any) {
     this.value = str
   }
+
+  async uploadToServe(file: any) {
+    const ld = this.$loading({
+      text: '图片上传中...',
+      lock: true,
+      spinner: 'el-icon-loading',
+    });
+    const formData = new FormData();
+    formData.append('filename', `${new Date().valueOf()}.jpg`);
+    formData.append('file', file);
+    formData.append('dir', 'article_content');
+    formData.append('maxWidth', '750');
+    formData.append('watermark', 'true');
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+    try {
+      const { result } = await this.$api.common.upload(formData, config);
+      this.$message.success('上传成功~');
+      return result.path
+    } catch (e) {
+      console.log(e);
+    } finally {
+      ld.close();
+    }
+  }
+
 }
 </script>
 

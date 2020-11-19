@@ -13,6 +13,7 @@ import settings from '@/api/settings'
 import column from '@/api/column'
 import album from '@/api/album'
 import picture from '@/api/picture'
+import home from '@/api/home'
 // const api: any = {
 //   common,
 //   article,
@@ -39,6 +40,7 @@ const api: any = class Api {
   column = column
   album = album
   picture = picture
+  home = home
 }
 
 export default new api();

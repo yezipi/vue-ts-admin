@@ -455,7 +455,13 @@ body {
   }
 }
 .tox .tox-dialog__content-js {z-index: 1;}
-.tox .tox-textfield, .tox .tox-menubar, .tox .tox-toolbar-overlord, .tox .tox-statusbar {
+.tox .tox-textfield,
+.tox .tox-menubar,
+.tox .tox-toolbar-overlord,
+.tox .tox-statusbar,
+.tox .tox-dropzone,
+.tox-textarea, .tox .tox-selectfield select
+{
   @include halfWhite;
 }
 .tox .tox-editor-header {
