@@ -1,6 +1,45 @@
 import Vue from 'vue'
 import App from './App.vue'
-import ElementUI, { Form } from 'element-ui'
+import {
+  Pagination,
+  Dialog,
+  Menu,
+  Submenu,
+  MenuItem,
+  MenuItemGroup,
+  Input,
+  InputNumber,
+  Radio,
+  RadioGroup,
+  Checkbox,
+  CheckboxGroup,
+  Row,
+  Col,
+  Switch,
+  Select,
+  Option,
+  OptionGroup,
+  Button,
+  ButtonGroup,
+  Table,
+  TableColumn,
+  DatePicker,
+  Form,
+  FormItem,
+  Tag,
+  Alert,
+  Upload,
+  Badge,
+  Card,
+  Message,
+  Drawer,
+  Breadcrumb,
+  BreadcrumbItem,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
+  Avatar,
+} from 'element-ui';
 import router from './router'
 import store from './store'
 import api from './api'
@@ -27,7 +66,44 @@ Vue.component('yzp-drawer', YzpDrawer)
 Vue.component('yzp-remove-btn', YzpRemoveBtn)
 Vue.component('yzp-update-btn', YzpUpdateBtn)
 
-Vue.use(ElementUI);
+Vue.use(Pagination);
+Vue.use(Dialog);
+Vue.use(Menu);
+Vue.use(Submenu);
+Vue.use(MenuItem);
+Vue.use(MenuItemGroup);
+Vue.use(Input);
+Vue.use(InputNumber);
+Vue.use(Radio);
+Vue.use(RadioGroup);
+Vue.use(Checkbox);
+Vue.use(CheckboxGroup);
+Vue.use(Switch);
+Vue.use(Select);
+Vue.use(Option);
+Vue.use(OptionGroup);
+Vue.use(Button);
+Vue.use(ButtonGroup);
+Vue.use(Table);
+Vue.use(TableColumn);
+Vue.use(DatePicker);
+Vue.use(Form);
+Vue.use(FormItem);
+Vue.use(Tag);
+Vue.use(Alert);
+Vue.use(Upload);
+Vue.use(Badge);
+Vue.use(Card);
+Vue.use(Row);
+Vue.use(Col);
+Vue.use(Drawer)
+Vue.use(Breadcrumb);
+Vue.use(BreadcrumbItem);
+Vue.use(Dropdown)
+Vue.use(DropdownItem);
+Vue.use(DropdownMenu);
+Vue.use(Avatar);
+
 Vue.prototype.$api = api
 Vue.prototype.$dict = dict
 Vue.prototype.$consts = consts
@@ -66,7 +142,7 @@ nav.options.routes.forEach((e: any) => {
 
 router.beforeEach((to, from, next) => {
   if (!to.name || allPath.indexOf(to.path) < 0) {
-    ElementUI.Message({ message: '抱歉，页面不存在', type: 'warning' })
+    Message({ message: '抱歉，页面不存在', type: 'warning' })
     router.replace({ path: '/404' })
     return
   }
