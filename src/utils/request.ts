@@ -54,20 +54,28 @@ axios.interceptors.response.use(({ data, config: { params, data : res }}) => {
  */
 export default class {
 
-  get(url: string, query?: object) {
-    return axios.get(url, { params: query })
-  }
+  get = (url: string, query?: object) => axios.get(url, { params: query })
 
-  post(url: string, data: any, config?: any) {
-    return axios.post(url, data, config)
-  }
+  post = (url: string, data: any, config?: any) => axios.post(url, data, config)
 
-  put(url: string, data?: object) {
-    return axios.put(url, data)
-  }
+  put = (url: string, data?: object) => axios.put(url, data)
 
-  delete(url: string, data?: object) {
-    return axios.delete(url, { params: data })
-  }
+  delete = (url: string, data?: object) => axios.delete(url, { params: data })
+
+  // get(url: string, query?: object) {
+  //   return axios.get(url, { params: query })
+  // }
+
+  // post(url: string, data: any, config?: any) {
+  //   return axios.post(url, data, config)
+  // }
+
+  // put(url: string, data?: object) {
+  //   return axios.put(url, data)
+  // }
+
+  // delete(url: string, data?: object) {
+  //   return axios.delete(url, { params: data })
+  // }
 
 }

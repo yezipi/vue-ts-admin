@@ -26,6 +26,23 @@ import home from '@/api/home'
 //   blogroll,
 // }
 
+export interface ApiInterface {
+  common: any;
+  article: any;
+  mood: any;
+  log: any;
+  tag: any;
+  comment: any;
+  feedback: any;
+  user: any;
+  blogroll: any;
+  settings: any;
+  column: any;
+  album: any;
+  picture: any;
+  home: any;
+}
+
 const api: any = class Api {
   common = common
   article = article

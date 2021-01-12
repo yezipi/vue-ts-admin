@@ -139,7 +139,7 @@ export default class extends Vue {
     author_id: '',
     reprint: '',
     hit: 1,
-    time: '',
+    time: new Date(),
     type: 'article',
     status: 1,
     is_top: 0,

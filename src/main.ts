@@ -31,7 +31,9 @@ import {
   Upload,
   Badge,
   Card,
+  Loading,
   Message,
+  MessageBox,
   Drawer,
   Breadcrumb,
   BreadcrumbItem,
@@ -108,6 +110,9 @@ Vue.prototype.$api = api
 Vue.prototype.$dict = dict
 Vue.prototype.$consts = consts
 Vue.prototype.$moment = moment
+Vue.prototype.$message = Message
+Vue.prototype.$confirm = MessageBox.confirm;
+Vue.prototype.$loading = Loading.service
 
 Vue.mixin(Mixins);
 
